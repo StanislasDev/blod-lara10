@@ -1,7 +1,10 @@
 <?php
 namespace App\Http\Controllers;
 
+use App\Models\Tag;
 use App\Models\Post;
+use App\Models\Category;
+use Illuminate\View\View;
 use Illuminate\Http\Request;
 
 class PostController extends Controller
@@ -16,6 +19,26 @@ class PostController extends Controller
 // 'total' => $total
 // ]);
         return view('posts.index', compact(['posts', 'total']));
+    }
+
+    public function postsByCategory(Category $category): View
+    {
+        return view('posts.index', [
+            // 'posts' => $category->posts()->latest()->paginate(10)
+            'posts' => Post::where(
+                'category_id', $category->id
+            )->latest()->paginate(10),
+        ]);
+    }
+
+    public function postsByTag(Tag $tag): View
+    {
+        return view('posts.index', [
+            // 'posts' => $tag->posts()->latest()->paginate(10)
+            'posts' => Post::whereRelation(
+                'tags', 'tags.id', $tag->id
+            )->latest()->paginate(10),
+        ]);
     }
 
     public function show(Post $post)
