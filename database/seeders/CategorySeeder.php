@@ -14,13 +14,12 @@ class CategorySeeder extends Seeder
      */
     public function run(): void
     {
-        $categories = ([
+        $categories = collect([
             'Livre',
             'Jeux-vidéo',
             'Musique',
             'Films'
         ]);
-
         $categories->each(fn ($category) => Category::create([
             'name' => $category,
             'slug' => Str::slug($category),
