@@ -32,18 +32,44 @@
             </form>
             {{-- Navigation --}}
             <nav x-data="{ open: false }" x-cloak class="relative">
-                <button @click="open = !open" @click.outside="if (open) open = false" class="md:hidden w-8 h-8 flex rounded-full bg-white text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2">
+                <button 
+                @click="open = !open" 
+                @click.outside="if (open) open = false" 
+                @class([
+                    'w-8 h-8 flex rounded-full bg-white text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2',
+                    'md:hidden' => Auth::guest(),
+                ])
+                >
+
+                @auth
+                <img src="https://via.placeholder.com/120x120" alt="Image de profil" class="h-8 w-8 rounded-full">
+                @else
                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 024 24" stroke-width="1.5" stroke="currentColor" class="w-8 h-8">
                         <path stroke-linecap="round" stroke-linejoin="round" d="M3.756.75h16.5M3.75 12h16.5m-16.5 5.25H12" />
                     </svg>
+                @endauth
+                    
                 </button>
                 <ul x-show="open" x-transition:enter="transition ease-out duration-200"
                     x-transition:enter-start="transform opacity-0 scale-95"
                     x-transition:enter-end="transform opacity-100 scale-100"
                     x-transition:leave="transition ease-in duration-75"
                     x-transition:leave-start="transform opacity-100 scale-100"
-                    x-transition:leave-end="transform opacity-0 scale-95" class="md:hidden absolute right-0 z-10 mt-2 w-48 origin-top-right rounded-md bg-white py-1 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none" tabindex="-1">
-                    <li><a href="" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Connexion</a></li>
+                    x-transition:leave-end="transform opacity-0 scale-95" 
+                    @class([
+                        'absolute right-0 z-10 mt-2 w-48 origin-top-right rounded-md bg-white py-1 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none',
+                        'md:hidden' => Auth::guest(),
+                    ])
+                    tabindex="-1">
+
+                    @auth
+                        <li><a href="{{ route('home')}}" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Mon compte</a></li>
+                        <li><a href="" @click.prevent="$ref.logout.submit()" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Déconnexion</a></li>
+                        <form x-ref="logout" action="" method="POST" class="hidden">
+                            @csrf
+                        </form>
+                    @else
+                    <li><a href="{{ route('login')}}" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Connexion</a></li>
                     <li>
                         <a href="{{ route('register')}}" class="flex items-center px-4 py-2 font-semibold text-sm text-indigo-700 hover:bg-gray-100">
                             Inscription
@@ -52,9 +78,11 @@
                             </svg>
                         </a>
                     </li>
+                    @endauth
                 </ul>
+                @guest
                 <ul class="hidden md:flex space-x-12 font-semibold">
-                    <li><a href="">Connexion</a></li>
+                    <li><a href="{{ route('login')}}">Connexion</a></li>
                     <li>
                         <a href="{{ route('register')}}" class="flex items-center group text-indigo-700">
                             Inscription
@@ -66,6 +94,7 @@
                         </a>
                     </li>
                 </ul>
+                @endguest
             </nav>
         </header>
 
