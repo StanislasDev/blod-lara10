@@ -64,12 +64,12 @@
 
                     @auth
                         <li><a href="{{ route('home')}}" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Mon compte</a></li>
-                        <li><a href="" @click.prevent="$ref.logout.submit()" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Déconnexion</a></li>
-                        <form x-ref="logout" action="" method="POST" class="hidden">
+                        <li><a href="{{ route('logout') }}" @click.prevent="$refs.logout.submit()" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Déconnexion</a></li>
+                        <form x-ref="logout" action="{{ route('logout') }}" method="POST" class="hidden">
                             @csrf
                         </form>
                     @else
-                    <li><a href="{{ route('login')}}" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Connexion</a></li>
+                    <li><a href="{{ route('login') }}" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Connexion</a></li>
                     <li>
                         <a href="{{ route('register')}}" class="flex items-center px-4 py-2 font-semibold text-sm text-indigo-700 hover:bg-gray-100">
                             Inscription
