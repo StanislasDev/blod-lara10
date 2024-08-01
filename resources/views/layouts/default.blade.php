@@ -42,7 +42,7 @@
                 >
 
                 @auth
-                <img src="https://via.placeholder.com/120x120" alt="Image de profil" class="h-8 w-8 rounded-full">
+                <img src="{{ Gravatar::get(Auth::user()->email)}}" alt="Image de profil" class="h-8 w-8 rounded-full">
                 @else
                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 024 24" stroke-width="1.5" stroke="currentColor" class="w-8 h-8">
                         <path stroke-linecap="round" stroke-linejoin="round" d="M3.756.75h16.5M3.75 12h16.5m-16.5 5.25H12" />
