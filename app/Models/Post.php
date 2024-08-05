@@ -15,6 +15,8 @@ class Post extends Model
 {
     use HasFactory;
 
+    protected $guarded = ['id', 'crceated_at', 'uptated_at'];
+
     protected $with = [
         'category',
         'tags',
@@ -45,6 +47,11 @@ class Post extends Model
                 'tags', 'tags.id', $filters['tag']->id ?? $filters['tag']
             );
         }
+    }
+
+    public function exists(): bool
+    {
+        return (bool) $this->id;
     }
 
     public function category(): BelongsTo

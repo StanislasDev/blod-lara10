@@ -24,7 +24,7 @@ class PostFactory extends Factory
         
         return [
             'title' => $title,
-            'slug' => str::slug($title),
+            'slug' => Str::slug($title),
             'excerpt' => Str::limit($content, 150),
             'content' => fake()->paragraphs(asText:'true'),
             'thumbnail' => fake()->imageUrl,
